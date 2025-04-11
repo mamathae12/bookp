@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Books | Online Book Store</title>
+  <style>
+     body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #161516, #0a0a0a);
+      margin: 0;
+      padding: 20px;
+      color: white;
+    }
+    h2 {
+      text-align: center;
+    }
+    .book-container, .cart-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .book, .cart-item {
+      background: white;
+      color: black;
+      width: 180px;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .book:hover, .cart-item:hover {
+      transform: scale(1.05);
+    }
+    .book img, .cart-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .book button, .cart-item button {
+      background-color: #ff512f;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .book button:hover, .cart-item button:hover {
+      background-color: #dd2476;
+    }
+    .goto-cart {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .goto-cart button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .goto-cart button:hover {
+      background: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <h2>Browse Our Books</h2>
+  <div class="book-container" id="bookList"></div>
+
+  <h2>Your Cart (Below)</h2>
+  <div class="cart-container" id="cartDisplay"></div>
+
+  <div class="goto-cart">
+    <button onclick="window.location.href='cart.html'">Go to Cart Page</button>
+  </div>
+
+  <script>
+    const bookList = document.getElementById("bookList");
+    const cartDisplay = document.getElementById("cartDisplay");
+    // Famous book data (30+ books)
+    const books = [
+      { id: 1, name: "The Catcher in the Rye", author: "J.D. Salinger", price: 499, image: "https://covers.openlibrary.org/b/id/8225267-L.jpg" },
+      { id: 2, name: "To Kill a Mockingbird", author: "Harper Lee", price: 399, image: "https://covers.openlibrary.org/b/id/10403334-L.jpg" },
+      { id: 3, name: "1984", author: "George Orwell", price: 350, image: "https://covers.openlibrary.org/b/id/8275477-L.jpg" },
+      { id: 4, name: "The Great Gatsby", author: "F. Scott Fitzgerald", price: 299, image: "https://covers.openlibrary.org/b/id/10805902-L.jpg" },
+      { id: 5, name: "Moby-Dick", author: "Herman Melville", price: 499, image: "https://covers.openlibrary.org/b/id/10460608-L.jpg" },
+      { id: 6, name: "Pride and Prejudice", author: "Jane Austen", price: 299, image: "https://covers.openlibrary.org/b/id/8233703-L.jpg" },
+      { id: 7, name: "War and Peace", author: "Leo Tolstoy", price: 650, image: "https://covers.openlibrary.org/b/id/8237483-L.jpg" },
+      { id: 8, name: "Brave New World", author: "Aldous Huxley", price: 299, image: "https://covers.openlibrary.org/b/id/8323232-L.jpg" },
+      { id: 9, name: "The Hobbit", author: "J.R.R. Tolkien", price: 499, image: "https://covers.openlibrary.org/b/id/8225381-L.jpg" },
+      { id: 10, name: "The Lord of the Rings", author: "J.R.R. Tolkien", price: 799, image: "https://covers.openlibrary.org/b/id/8213081-L.jpg" },
+      { id: 11, name: "Harry Potter and the Sorcerer's Stone", author: "J.K. Rowling", price: 399, image: "https://covers.openlibrary.org/b/id/7472547-L.jpg" },
+      { id: 12, name: "The Chronicles of Narnia", author: "C.S. Lewis", price: 450, image: "https://covers.openlibrary.org/b/id/8554592-L.jpg" },
+      { id: 13, name: "The Alchemist", author: "Paulo Coelho", price: 350, image: "https://covers.openlibrary.org/b/id/8225420-L.jpg" },
+      { id: 14, name: "The Odyssey", author: "Homer", price: 499, image: "https://covers.openlibrary.org/b/id/10802385-L.jpg" },
+      { id: 15, name: "The Catcher in the Rye", author: "J.D. Salinger", price: 499, image: "https://covers.openlibrary.org/b/id/8225267-L.jpg" },
+      { id: 16, name: "The Great Gatsby", author: "F. Scott Fitzgerald", price: 299, image: "https://covers.openlibrary.org/b/id/10805902-L.jpg" },
+      { id: 17, name: "Ulysses", author: "James Joyce", price: 899, image: "https://covers.openlibrary.org/b/id/10806493-L.jpg" },
+      { id: 18, name: "Anna Karenina", author: "Leo Tolstoy", price: 450, image: "https://covers.openlibrary.org/b/id/10806982-L.jpg" },
+      { id: 19, name: "Crime and Punishment", author: "Fyodor Dostoevsky", price: 399, image: "https://covers.openlibrary.org/b/id/10802112-L.jpg" },
+      { id: 20, name: "The Divine Comedy", author: "Dante Alighieri", price: 399, image: "https://covers.openlibrary.org/b/id/8231065-L.jpg" },
+      { id: 21, name: "Don Quixote", author: "Miguel de Cervantes", price: 699, image: "https://covers.openlibrary.org/b/id/8231797-L.jpg" },
+      { id: 22, name: "The Brothers Karamazov", author: "Fyodor Dostoevsky", price: 550, image: "https://covers.openlibrary.org/b/id/8234002-L.jpg" },
+      { id: 23, name: "Frankenstein", author: "Mary Shelley", price: 399, image: "https://covers.openlibrary.org/b/id/10679151-L.jpg" },
+      { id: 24, name: "Dracula", author: "Bram Stoker", price: 299, image: "https://covers.openlibrary.org/b/id/8235613-L.jpg" },
+      { id: 25, name: "The Picture of Dorian Gray", author: "Oscar Wilde", price: 350, image: "https://covers.openlibrary.org/b/id/10807411-L.jpg" },
+      { id: 26, name: "The Scarlet Letter", author: "Nathaniel Hawthorne", price: 299, image: "https://covers.openlibrary.org/b/id/8237481-L.jpg" },
+      { id: 27, name: "Frankenstein", author: "Mary Shelley", price: 399, image: "https://covers.openlibrary.org/b/id/10679151-L.jpg" },
+      { id: 28, name: "Wuthering Heights", author: "Emily Brontë", price: 399, image: "https://covers.openlibrary.org/b/id/10807602-L.jpg" },
+      { id: 29, name: "Catcher in the Rye", author: "J.D. Salinger", price: 499, image: "https://covers.openlibrary.org/b/id/8225267-L.jpg" },
+      { id: 30, name: "The Little Prince", author: "Antoine de Saint-Exupéry", price: 349, image: "https://covers.openlibrary.org/b/id/8323790-L.jpg" },
+    ];
+
+    // Dynamically add books to the list
+    // books.forEach(book => {
+    //   const div = document.createElement("div");
+    //   div.className = "book";
+    //   div.innerHTML = `
+    //     <img src="${book.image}" alt="${book.name}" />
+    //     <h4>${book.name}</h4>
+    //     <p><em>by ${book.author}</em></p>
+    //     <p><strong>₹${book.price}</strong></p>
+    //       <button>Add to Cart</button>
+    //   `;
+    //   bookList.appendChild(div);
+    // });
+
+    // function addToCart(book) {
+    //   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    //   cart.push(book);
+    //   localStorage.setItem("cart", JSON.stringify(cart));
+    //   window.location.href = "cart.html";
+    // }
+   
+    function renderBooks() {
+      books.forEach((book, index) => {
+        const div = document.createElement("div");
+        div.className = "book";
+        div.innerHTML = `
+          <img src="${book.image}" alt="${book.name}" />
+          <h4>${book.name}</h4>
+          <p><em>by ${book.author}</em></p>
+          <p><strong>₹${book.price}</strong></p>
+          <button onclick="addToCart(${index})">Add to Cart</button>
+        `;
+        bookList.appendChild(div);
+      });
+    }
+
+    function addToCart(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(books[index]);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCart();
+    }
+
+    function displayCart() {
+      cartDisplay.innerHTML = "";
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      if (cart.length === 0) {
+        cartDisplay.innerHTML = "<p style='color:white;text-align:center;'>Your cart is empty.</p>";
+        return;
+      }
+
+      cart.forEach((item, i) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" />
+          <h4>${item.name}</h4>
+          <p><em>by ${item.author}</em></p>
+          <p><strong>₹${item.price}</strong></p>
+          <button onclick="removeFromCart(${i})">Remove</button>
+        `;
+        cartDisplay.appendChild(div);
+      });
+    }
+
+    function removeFromCart(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCart();
+    }
+
+    // Initialize on page load
+    renderBooks();
+    displayCart();
+
+
+  </script>
+</body>
+</html>

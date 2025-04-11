@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Book Entry | Online Book Store</title>
+  <style>
+    body {
+  background-image: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+    .form-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .form-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    .form-box button {
+      width: 100%;
+      padding: 12px;
+      background: #ff416c;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Enter Book Details</h2>
+    <input type="text" id="bookName" placeholder="Book Name" />
+    <input type="text" id="author" placeholder="Author" />
+    <button onclick="submitBook()">Submit</button>
+  </div>
+
+  <script>
+    function submitBook() {
+      const name = document.getElementById("bookName").value.trim();
+      const author = document.getElementById("author").value.trim();
+
+      if (!name || !author) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      // Get existing books or initialize an empty array
+      const books = JSON.parse(localStorage.getItem("books")) || [];
+
+      // Add the new book
+      books.push({ name, author });
+
+      // Save back to localStorage
+      localStorage.setItem("books", JSON.stringify(books));
+
+      alert("Book submitted!");
+      window.location.href = "book-list.html"; // Optional redirect
+    }
+  </script>
+</body>
+</html>

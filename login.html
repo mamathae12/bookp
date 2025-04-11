@@ -1,0 +1,61 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | Online Book Store</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #e928d6, #a685e8);
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+    .login-box {
+      background: white;
+      color: black;
+      padding: 40px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #4a00e0;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="User ID" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (user && pass) {
+        // Redirect to Book Entry Page
+        window.location.href = "book-entry.html";
+      } else {
+        alert("Please enter valid credentials.");
+      }
+    }
+  </script>
+</body>
+</html>

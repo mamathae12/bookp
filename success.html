@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payment Successful | Online Book Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #56ab2f, #a8e063);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+    .success-box {
+      background: white;
+      color: #2e7d32;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .success-box h1 {
+      margin: 0 0 20px;
+    }
+    .checkmark {
+      font-size: 60px;
+      color: green;
+      animation: pop 0.5s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+    .success-box button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-box">
+    <div class="checkmark">✔️</div>
+    <h1>Payment Successful!</h1>
+    <p>Thank you for your purchase.</p>
+    <button onclick="goBack()">Shop More</button>
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = "book-list.html";
+    }
+  </script>
+</body>
+</html>
